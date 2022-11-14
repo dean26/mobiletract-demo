@@ -7,7 +7,14 @@
         :rows="store.usersData"
         :columns="columns"
         row-key="name"
-      />
+      >
+        <template v-slot:body-cell-actions="props">
+          <q-td :props="props">
+            <q-btn icon="mode_edit" @click="onEdit(props.row)"></q-btn>
+            <q-btn icon="delete" @click="onDelete(props.row)"></q-btn>
+          </q-td>
+        </template>
+      </q-table>
     </div>
 
     <q-dialog v-model="dialog">
@@ -27,12 +34,13 @@
 
 <script>
 import { useQuasar } from 'quasar';
-import {useAuthStore} from "src/stores/user";
+import { useAuthStore } from "src/stores/user";
 
 const columns = [
-  { name: 'fullName', required: true, label: 'Full name', align: 'left', field: row => row.fullName, format: val => `${val}`, sortable: true},
+  { name: 'fullName', required: true, label: 'Full name', align: 'left', field: 'fullName', sortable: true},
   { name: 'email', align: 'center', label: 'Email', field: 'email', sortable: true },
-  { name: 'dateOfBirth', label: 'Date Of Birth', field: 'dateOfBirth', sortable: true }
+  { name: 'dateOfBirth', label: 'Date Of Birth', field: 'dateOfBirth', sortable: true },
+  { name: 'actions', label: 'Actions', field: '' }
 ]
 
 export default {
@@ -66,5 +74,13 @@ export default {
     }
   },
 
+  methods:  {
+    onEdit(props){
+      console.log(props.id);
+    },
+    onDelete(props){
+      console.log(props.id);
+    }
+  }
 }
 </script>

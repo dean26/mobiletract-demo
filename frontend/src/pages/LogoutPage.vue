@@ -12,6 +12,6 @@ export default {
     const store = useAuthStore();
     store.logout();
     this.$router.push("/");
-  },
+  }
 };
 </script>

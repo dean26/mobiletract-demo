@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
 
-    <p>{{ store.$state.userData?.fullName }}</p>
+    <p>{{ store.$state.userData?.fullName }} {{ store.$state.userData?.role }}</p>
 
     <router-link to="/">
       <q-btn

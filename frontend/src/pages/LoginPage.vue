@@ -80,12 +80,13 @@ export default {
   },
 
   methods: {
-    submit() {
+    async submit() {
       this.v$.form.$touch();
       this.loading = true;
 
-      if (this.v$.form.$error) {
-        console.log(this.v$.form.$error)
+      const isValidData = await this.v$.$validate()
+
+      if (!isValidData) {
         this.$q.notify("Please review fields again.");
       } else {
         const store = useAuthStore();
@@ -99,7 +100,6 @@ export default {
 
       this.loading = false;
     },
-  },
-
+  }
 };
 </script>
