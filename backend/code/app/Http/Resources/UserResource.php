@@ -19,6 +19,7 @@ class UserResource extends JsonResource
             'fullName' => $this->fullName,
             'email' => $this->email,
             'dateOfBirth' => $this->dateOfBirth,
+            'parent' => new UserResource($this->parent),
             'role' => $this->roles->pluck('name')->first(),
         ];
     }

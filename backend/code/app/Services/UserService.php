@@ -15,20 +15,6 @@ class UserService
         return $this;
     }
 
-    public function paginateByArrayData(array $data): \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection
-    {
-        $query = User::query()->select('*');
-
-        //no admins can watch only their data
-        if (!auth()->user()->hasRole([UserRolesDictionary::ROLE_SUPERADMIN])) {
-            $query->where('id', auth()->user()->id);
-        }
-
-        (isset($data['sort_by'])) ? $query->orderBy($data['sort_by'], (array_key_exists('order_by', $data) ? $data['order_by'] : 'desc')) : $query->orderBy('created_at', 'desc');
-
-        return $query->paginate($this->getPerPage($data));
-    }
-
     public function getAll(array $data): \Illuminate\Database\Eloquent\Collection
     {
         $query = User::query()->select('*');
@@ -36,6 +22,9 @@ class UserService
         //no admins can watch only their data
         if (!auth()->user()->hasRole([UserRolesDictionary::ROLE_SUPERADMIN])) {
             $query->where('id', auth()->user()->id);
+        } else {
+            //only superadmin childs
+            $query->where('parent_id', auth()->user()->id);
         }
 
         (isset($data['sort_by'])) ? $query->orderBy($data['sort_by'], (array_key_exists('order_by', $data) ? $data['order_by'] : 'desc')) : $query->orderBy('created_at', 'desc');

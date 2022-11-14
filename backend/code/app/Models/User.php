@@ -22,7 +22,8 @@ class User extends Authenticatable
         'fullName',
         'email',
         'password',
-        'dateOfBirth'
+        'dateOfBirth',
+        'parent_id'
     ];
 
     /**
@@ -43,4 +44,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function parent(){
+        return $this->belongsTo(User::class, 'parent_id');
+    }
 }
